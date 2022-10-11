@@ -141,7 +141,7 @@ export default {
               { text: "另辟蹊径", class: "picker-off" },
             ],
             map: 0,
-            atmo: 0,
+            atmo: [0,0,0,0],
             hintFlag: false,
             time: null,
             rollFlag: false,
@@ -150,12 +150,17 @@ export default {
     methods: {
         getPosition() {
           this.rollFlag = true;
-          const total = this.positionsEast[this.atmo].length;
+          // const total = this.positionsEast[this.atmo].length;
           this.time = setInterval(() => {
-            let i = Math.floor(Math.random() * total);
-            this.position = this.positionsEast[this.atmo][i].position;
-            this.description = this.positionsEast[this.atmo][i].description;
-            this.icon = this.positionsEast[this.atmo][i].icon;
+            let atmoIndex = 0;
+            do{
+              atmoIndex = Math.floor(Math.random() * this.atmo.length);
+            }while(this.atmo[atmoIndex]!==0)
+            let i = Math.floor(Math.random() * this.positionsEast[atmoIndex].length);
+            this.position = this.positionsEast[atmoIndex][i].position;
+            this.description = this.positionsEast[atmoIndex][i].description;
+            this.icon = this.positionsEast[atmoIndex][i].icon;
+            
           }, 50)
         },
         stopGetPosition(){
@@ -169,9 +174,16 @@ export default {
           this.map = index;
         },
         chooseAtmosphere(index){
-          for(let i = 0; i < 4; i++) this.atmospheres[i].class = "picker-off";
-          this.atmospheres[index].class = "picker-on";
-          this.atmo = index;
+          // for(let i = 0; i < 4; i++) this.atmospheres[i].class = "picker-off";
+          // this.atmospheres[index].class = "picker-on";
+          // this.atmo = index;
+          if(this.atmospheres[index].class === "picker-off"){
+            this.atmospheres[index].class = "picker-on"
+            this.atmo[index] = 0;
+          }else{
+            this.atmospheres[index].class = "picker-off";
+            this.atmo[index] = 1;
+          }
         },
         showHint(){
           this.hintFlag = true;

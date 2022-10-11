@@ -152,11 +152,15 @@ export default {
           this.rollFlag = true;
           // const total = this.positionsEast[this.atmo].length;
           this.time = setInterval(() => {
-            let atmoIndex = Math.floor(Math.random() * this.atmo.length);
+            let atmoIndex = 0;
+            do{
+              atmoIndex = Math.floor(Math.random() * this.atmo.length);
+            }while(this.atmo[atmoIndex]!==0)
             let i = Math.floor(Math.random() * this.positionsEast[atmoIndex].length);
             this.position = this.positionsEast[atmoIndex][i].position;
             this.description = this.positionsEast[atmoIndex][i].description;
             this.icon = this.positionsEast[atmoIndex][i].icon;
+            
           }, 50)
         },
         stopGetPosition(){
